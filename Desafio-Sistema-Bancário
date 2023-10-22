@@ -1,0 +1,43 @@
+import datetime
+
+class SistemaBancario:
+    def __init__(self):
+        self.saldo = 0
+        self.movimentacoes = []
+    
+    def depositar(self, valor):
+        if valor > 0:
+            self.saldo += valor
+            self.movimentacoes.append(f"Depósito: +R$ {valor:.2f} ({self._agora()})")
+        else:
+            print("Valor inválido. O depósito deve ser positivo.")
+    
+    def sacar(self, valor):
+        if valor > 0 and valor <= 500 and self.saldo >= valor:
+            self.saldo -= valor
+            self.movimentacoes.append(f"Saque: -R$ {valor:.2f} ({self._agora()})")
+        else:
+            print("Saque não permitido. Verifique o valor ou saldo insuficiente.")
+    
+    def extrato(self):
+        print("Extrato Bancário")
+        print("=" * 20)
+        for movimentacao in self.movimentacoes:
+            print(movimentacao)
+        if not self.movimentacoes:
+            print("Não foram realizadas movimentações.")
+        print("-" * 20)
+        print(f"Saldo atual: R$ {self.saldo:.2f}")
+        print("=" * 20)
+    
+    def _agora(self):
+        agora = datetime.datetime.now()
+        return agora.strftime("%d/%m/%Y %H:%M:%S")
+
+# Testando o sistema
+banco = SistemaBancario()
+banco.depositar(1000.50)
+banco.sacar(300)
+banco.depositar(700)
+banco.sacar(800)
+banco.extrato()
